@@ -26,14 +26,19 @@
                                         class="pl-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                         Losses
                                     </th>
+                                    <th scope="col"
+                                        class="py-3 pr-8 text-right text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                        Winnings
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     @foreach($total_wins_losses as $player)
                                         <tr>
-                                            <td class="whitespace-nowrap py-2 pl-4 text-sm font-medium text-gray-900 border">{{ $player->name }}</td>
+                                            <td class="whitespace-nowrap py-2 pl-4 text-sm font-medium text-gray-900 border sm:pl-6">{{ $player->name }}</td>
                                             <td class="whitespace-nowrap py-2 pl-3 text-sm font-medium text-gray-900 border">{{ $player->total_wins }}</td>
                                             <td class="whitespace-nowrap py-2 pl-3 text-sm font-medium text-gray-900 border">{{ $player->total_losses }}</td>
+                                            <td class="whitespace-nowrap py-2 pr-8 text-sm text-right font-medium text-gray-900 border">${{ number_format($player->winnings / 100, 2) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

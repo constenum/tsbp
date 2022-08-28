@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('away_spread', 3, 1)->nullable();
             $table->unsignedSmallInteger('away_score')->nullable();
             $table->string('status')->default('Not Started');
+            $table->boolean('is_complete')->default(false);
             $table->timestamps();
         });
     }

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->datetime('start_at');
             $table->boolean('is_active')->default(false);
+            $table->smallInteger('max_picks')->default(5);
             $table->timestamps();
         });
     }

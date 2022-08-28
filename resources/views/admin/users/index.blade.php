@@ -22,15 +22,15 @@
                                     </th>
                                     <th scope="col"
                                         class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                        Nickname
-                                    </th>
-                                    <th scope="col"
-                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                                         Email
                                     </th>
                                     <th scope="col"
                                         class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                                         Is Admin
+                                    </th>
+                                    <th scope="col"
+                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                        Is Active
                                     </th>
                                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                         <span class="sr-only">Edit</span>
@@ -44,13 +44,23 @@
                                             {{ $user->name }}
                                         </td>
                                         <td class="whitespace-nowrap py-4 pl-3 pr-3 text-sm font-medium text-gray-900">
-                                            {{ $user->nickname }}
-                                        </td>
-                                        <td class="whitespace-nowrap py-4 pl-3 pr-3 text-sm font-medium text-gray-900">
                                             {{ $user->email }}
                                         </td>
                                         <td class="whitespace-nowrap py-4 pl-3 pr-3 text-sm font-medium text-gray-900">
                                             @if($user->is_admin)
+                                                <span
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                    Yes
+                                                </span>
+                                            @else
+                                                <span
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                    No
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="whitespace-nowrap py-4 pl-3 pr-3 text-sm font-medium text-gray-900">
+                                            @if($user->is_active)
                                                 <span
                                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                     Yes

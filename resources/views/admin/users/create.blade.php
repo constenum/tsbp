@@ -38,13 +38,6 @@
                             <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
                         </div>
 
-                        <!-- Team Name -->
-                        <div class="mt-2">
-                            <x-label for="nickname" :value="__('Team Name')" />
-
-                            <x-input id="nickname" class="block mt-1 w-full" type="text" name="nickname" :value="old('nickname')" required />
-                        </div>
-
                         <!-- Email Address -->
                         <div class="mt-2">
                             <x-label for="email" :value="__('Email')" />

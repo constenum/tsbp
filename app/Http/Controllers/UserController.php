@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function index() : View
     {
-        $users = user::all('id', 'name', 'nickname', 'email', 'is_admin');
+        $users = user::orderBy('name')->get(['id', 'name', 'email', 'is_admin', 'is_active']);
 
         return view('admin.users.index', compact('users'));
     }
@@ -28,9 +28,9 @@ class UserController extends Controller
     {
         $new_user = User::create([
             'name' => $request->name,
-            'nickname' => $request->nickname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'is_active' => true,
             'is_admin' => false,
         ]);
 

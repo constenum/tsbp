@@ -13,6 +13,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('week_id')->constrained();
             $table->json('picks');
+            $table->smallInteger('pick_count')->default(0);
+            $table->smallInteger('wins')->default(0);
+            $table->smallInteger('losses')->default(0);
             $table->timestamps();
         });
     }

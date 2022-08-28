@@ -86,10 +86,10 @@
                                         class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                         WK 17
                                     </th>
-{{--                                    <th scope="col"--}}
-{{--                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">--}}
-{{--                                        Total--}}
-{{--                                    </th>--}}
+                                    <th scope="col"
+                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                        WK 18
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
@@ -99,7 +99,7 @@
                                             {{ $pick }}
                                         </td>
                                         @foreach($weeklyPicks as $key=>$value)
-                                            @if($value['week_id'] <> 17)
+                                            @if($value['week_id'] <> 18)
                                                 <td class="whitespace-nowrap pl-3 pr-2 text-sm font-medium text-gray-900 border @if($value['wins'] == 5) bg-green-100 text-green-900 font-bold @endif">
                                                     {{ $value['wins']}} - {{ $value['losses'] }}
                                                 </td>
@@ -109,8 +109,8 @@
                                                 </td>
                                             @endif
                                             @if($loop->last)
-                                                @if($loop->count < 17)
-                                                    @for($i = $loop->count; $i < 17; $i++)
+                                                @if($loop->count < 18)
+                                                    @for($i = $loop->count; $i < 18; $i++)
                                                         <td class="whitespace-nowrap pl-3 pr-2 text-sm font-medium text-gray-900 border"></td>
                                                     @endfor
                                                 @endif

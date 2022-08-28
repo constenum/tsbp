@@ -56,11 +56,11 @@
                                             </th>
                                             <th scope="col"
                                                 class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                                Home Team
+                                                Away Team
                                             </th>
                                             <th scope="col"
                                                 class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                                Away Team
+                                                Home Team
                                             </th>
                                             <th scope="col" class="relative py-3 pl-3 pr-4 sm:pr-6" colspan="2">
                                                 <span class="sr-only">Edit</span>
@@ -80,33 +80,33 @@
                                                 </td>
                                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                                                     <div class="flex items-center">
-                                                        <input id="favorite" name="game{{ $game->id }}" type="radio"
+                                                        <input id="dog" name="game{{ $game->id }}" type="radio"
                                                                class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                                               value="{{ $game->home_team_id }}"
-                                                               @if($game->start_at < \Carbon\Carbon::now()) disabled
-                                                               @endif @if(in_array($game->home_team_id, $picks)) checked @endif>
-                                                        <label for="favorite"
-                                                               class="ml-3 block text-sm font-medium @if($game->home_spread < 0) uppercase font-bold @endif @if($game->start_at < \Carbon\Carbon::now()) text-gray-400 @endif">{{ $game->home_team->name }}
-                                                            [{{ $game->home_spread }}]</label>
+                                                               value="{{ $game->away_team_id }}"
+                                                               @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) disabled
+                                                               @endif @if(in_array($game->away_team_id, $picks)) checked @endif>
+                                                        <label for="dog"
+                                                               class="ml-3 block text-sm font-medium @if($game->away_spread < 0) uppercase font-bold @endif @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) text-gray-400 @endif">{{ $game->away_team->name }}
+                                                            [{{ $game->away_spread }}]</label>
                                                     </div>
                                                 </td>
                                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                                                     <div class="flex items-center">
-                                                        <input id="dog" name="game{{ $game->id }}" type="radio"
+                                                        <input id="favorite" name="game{{ $game->id }}" type="radio"
                                                                class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                                               value="{{ $game->away_team_id }}"
-                                                               @if($game->start_at < \Carbon\Carbon::now()) disabled
-                                                               @endif @if(in_array($game->away_team_id, $picks)) checked @endif>
-                                                        <label for="dog"
-                                                               class="ml-3 block text-sm font-medium @if($game->away_spread < 0) uppercase font-bold @endif @if($game->start_at < \Carbon\Carbon::now()) text-gray-400 @endif">{{ $game->away_team->name }}
-                                                            [{{ $game->away_spread }}]</label>
+                                                               value="{{ $game->home_team_id }}"
+                                                               @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) disabled
+                                                               @endif @if(in_array($game->home_team_id, $picks)) checked @endif>
+                                                        <label for="favorite"
+                                                               class="ml-3 block text-sm font-medium @if($game->home_spread < 0) uppercase font-bold @endif @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) text-gray-400 @endif">{{ $game->home_team->name }}
+                                                            [{{ $game->home_spread }}]</label>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <button type="button" id="radioReset"
                                                             class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150"
                                                             onclick="radioButtonReset({{ $game->id }})"
-                                                            @if($game->start_at < \Carbon\Carbon::now()) disabled @endif>
+                                                            @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) disabled @endif>
                                                         {{ __('Clear') }}
                                                     </button>
                                                 </td>
@@ -139,7 +139,8 @@
                                     </x-button>
                                 </div>
                                 <div class="flex justify-end bg-white px-4 py-3 pr-8">
-                                    <p class="block text-gray-500 italic">Picks: <span id="picks"></span> of {{ $max_picks }}</p>
+                                    <p class="block text-gray-500 italic">Picks: <span id="picks"></span>
+                                        of {{ $max_picks }}</p>
                                 </div>
                             </form>
                         </div>

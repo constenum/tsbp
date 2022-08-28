@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\Pick;
 use App\Models\User;
 use App\Models\Week;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -14,10 +15,13 @@ class PickSummaryController extends Controller
     public function current() : View
     {
         $week = Week::query()->where('is_active', true)->value('id');
-        $games = Game::query()->where('week_id', $week)->get();
-        $picks = Pick::with('user')->orderBy(User::select('name')->whereColumn('users.id', 'picks.user_id'))->where('week_id', $week)->get();
+        $reveal_picks = Carbon::create(Week::query()->where('is_active', true)->value('start_at'))->addDays(3)->addHours(12);
+        $max_picks = Week::query()->where('is_active', true)->value('max_picks');
 //        $picks = Pick::with('user')->orderBy(User::select('name')->whereColumn('users.id', 'picks.user_id'))->where('week_id', $week)->get();
-        return view('current', compact('week', 'games', 'picks'));
+        $picks = DB::table('picks')->select('user_id', 'week_id', 'picks', 'pick_count', 'wins', 'losses')->where('week_id', $week);
+        $users = DB::table('users')->where('is_active', true)->leftJoinSub($picks, 'picks', function ($join){$join->on('users.id', '=', 'picks.user_id');})->orderBy('name')->get();
+        $users_picks = $users->toArray();
+        return view('current', compact('week', 'reveal_picks', 'max_picks', 'users_picks'));
     }
 
     public function weekly() : View
@@ -40,7 +44,7 @@ class PickSummaryController extends Controller
 
         $total_wins_losses = DB::table('picks')
             ->join('users', 'picks.user_id', '=', 'users.id')
-            ->select('user_id', 'name', DB::raw('SUM(wins) As total_wins'), DB::raw('SUM(losses) as total_losses'))
+            ->select('user_id', 'name', DB::raw('SUM(wins) As total_wins'), DB::raw('SUM(losses) as total_losses'), 'winnings')
             ->groupBy('picks.user_id', 'users.name')
             ->orderBy('total_wins', 'desc')
             ->orderBy('users.name')

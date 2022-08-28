@@ -60,6 +60,24 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+        'spreads' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/spreads.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'picks' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/picks.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
+        'scores' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/scores.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
