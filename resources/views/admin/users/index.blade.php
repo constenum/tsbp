@@ -32,6 +32,10 @@
                                         class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                                         Is Active
                                     </th>
+                                    <th scope="col"
+                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                        Winnings (in cents)
+                                    </th>
                                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                         <span class="sr-only">Edit</span>
                                     </th>
@@ -71,6 +75,9 @@
                                                     No
                                                 </span>
                                             @endif
+                                        </td>
+                                        <td class="whitespace-nowrap py-4 pl-3 pr-3 text-sm font-medium text-gray-900">
+                                            {{ $user->winnings }}
                                         </td>
                                         <td class="relative whitespace-nowrap pr-4 text-right text-sm font-medium sm:pr-6">
                                             <x-link-edit href="{{ route('users.edit', $user) }}">Edit</x-link-edit>

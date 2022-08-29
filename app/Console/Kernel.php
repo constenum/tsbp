@@ -16,17 +16,20 @@ class Kernel extends ConsoleKernel
                 ->weeklyOn(3, '11:00')
                 ->withoutOverlapping();
         } else {
-//            $schedule->command('spreads:weekly')
-//                ->everyMinute()
-//                ->withoutOverlapping();
+            $schedule->command('spreads:weekly')
+                ->timezone('America/New_York')
+                ->everyMinute()
+                ->withoutOverlapping();
         }
 
         $schedule->command('scores:daily')
+            ->timezone('America/New_York')
             ->everyMinute()
             ->unlessBetween('10:55', '11:22')
             ->withoutOverlapping();
 
         $schedule->command('picks-reminder:weekly')
+            ->timezone('America/New_York')
             ->weeklyOn(6, '11:20')
             ->withoutOverlapping();
     }
