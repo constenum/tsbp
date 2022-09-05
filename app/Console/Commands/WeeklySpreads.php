@@ -18,16 +18,16 @@ class WeeklySpreads extends Command
 
     public function handle() : void
     {
-//        $weeks = Week::query()->get(['id', 'start_at', 'is_active']);
-//
-//        foreach ($weeks as $week) {
-//            if (Carbon::now()->toDateString() == Carbon::create($week->start_at)->toDateString()) {
-//                Week::query()->where('id', $week->id)->update(['is_active' => true]);
-//                break;
-//            } elseif ($week->is_active) {
-//                Week::query()->where('id', $week->id)->update(['is_active' => false]);
-//            }
-//        }
+        $weeks = Week::query()->get(['id', 'start_at', 'is_active']);
+
+        foreach ($weeks as $week) {
+            if (Carbon::now()->toDateString() == Carbon::create($week->start_at)->toDateString()) {
+                Week::query()->where('id', $week->id)->update(['is_active' => true]);
+                break;
+            } elseif ($week->is_active) {
+                Week::query()->where('id', $week->id)->update(['is_active' => false]);
+            }
+        }
 
         $sports = ['americanfootball_ncaaf', 'americanfootball_nfl'];
         $current_week = Week::query()->where('is_active', true)->value('id');
@@ -71,6 +71,12 @@ class WeeklySpreads extends Command
                 }
                 $home_spread = trim($home_spreads->max());
 
+                Log::channel('spreads')->info('Game DateTime: '.$start);
+                Log::channel('spreads')->info('Week End Date: '.$end_date);
+                Log::channel('spreads')->info('Home Team: ('.Team::query()->where('name', $home_team)->value('name').') '.$home_team.' ['.$home_spread.']');
+                Log::channel('spreads')->info('Away Team: ('.Team::query()->where('name', $away_team)->value('name').') '.$away_team.' ['.-$home_spread.']');
+                Log::channel('spreads')->info(' ');
+
                 if ($home_team == null
                     or $away_team == null
                     or $home_spread == null
@@ -81,27 +87,21 @@ class WeeklySpreads extends Command
                     continue;
                 }
 
-                Log::channel('spreads')->info('-------- START --------');
-                Log::channel('spreads')->info('Game DateTime: '.$start);
-                Log::channel('spreads')->info('Week End Date: '.$end_date);
-                Log::channel('spreads')->info('Home Team: ('.Team::query()->where('name', $home_team)->value('id').') '.$home_team.' ['.$home_spread.']');
-                Log::channel('spreads')->info('Away Team: ('.Team::query()->where('name', $away_team)->value('id').') '.$away_team.' ['.-$home_spread.']');
-                Log::channel('spreads')->info('-------- END --------');
-
-                $int_spread = (int)trim($home_spread);
-                if ($home_spread < 0) {
-                    $spread = $int_spread - .5;
-                } else {
-                    $spread = $int_spread + .5;
+                if ($home_spread / 1 - floor($home_spread / 1) > 0) {
+                    if ($home_spread < 0) {
+                        $home_spread = $home_spread - 0.5;
+                    } else {
+                        $home_spread += 0.5;
+                    }
                 }
 
                 $game = new Game();
                 $game->week_id = $current_week;
                 $game->start_at = $start;
                 $game->home_team_id = Team::query()->where('name', $home_team)->value('id');
-                $game->home_spread = $spread;
+                $game->home_spread = $home_spread;
                 $game->away_team_id = Team::query()->where('name', $away_team)->value('id');
-                $game->away_spread = -$spread;
+                $game->away_spread = -$home_spread;
                 $game->save();
             }
         }
