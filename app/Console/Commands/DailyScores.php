@@ -6,12 +6,10 @@ use App\Models\Game;
 use App\Models\Pick;
 use App\Models\Team;
 use App\Models\Week;
-use Carbon\Carbon;
 use DOMDocument;
 use DOMXPath;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class DailyScores extends Command
 {
@@ -22,9 +20,6 @@ class DailyScores extends Command
     public function handle(): void
     {
         $current_week = Week::where('is_active', true)->value('id');
-        Log::channel('scores')->info('======== WEEK ========');
-        Log::channel('scores')->info('Current Week: week '.$current_week);
-        Log::channel('scores')->info('======================');
 
         $ncaaf = [];
         $ncaafPage = file_get_contents("https://www.thescore.com/ncaaf/events/conference/All%20FBS");
@@ -37,8 +32,10 @@ class DailyScores extends Command
         $ncaafQuery = $ncaafXpath->query('//div[contains(@class, "EventCard__teamName--JweK5") or contains(@class, "EventCard__pregameScoreText--ow7eN") or contains(@class, "EventCard__score--2C1-p") or contains(@class, "EventCard__clockColumn--3lEPz")]');
 
         for($i=0;$i<$ncaafQuery->length;$i++) {
+            if(str_starts_with($ncaafQuery->item($i)->nodeValue, "(")) {
+                continue;
+            }
             $ncaaf[$i] = $ncaafQuery->item($i)->nodeValue;
-            Log::info($ncaafQuery->item($i)->nodeValue);
         }
 
         $nfl = [];
@@ -127,16 +124,6 @@ class DailyScores extends Command
                         }
                     }
                 }
-
-                Log::channel('scores')->info('-------- GAME '.$game_id.' Final Score --------');
-                Log::channel('scores')->info('Away ID: '.$visitor);
-                Log::channel('scores')->info('Away Name: '.Team::where('short_name', $scores[$i])->value('name'));
-                Log::channel('scores')->info('Away Score: '.$scores[$i + 1]);
-                Log::channel('scores')->info('Home ID: '.Team::where('short_name', $scores[$i + 3])->value('id'));
-                Log::channel('scores')->info('Home Name: '.Team::where('short_name', $scores[$i + 3])->value('name'));
-                Log::channel('scores')->info('Home Score: '.$scores[$i + 4]);
-                Log::channel('scores')->info('Status: '.$scores[$i + 2]);
-                Log::channel('scores')->info('-------- END --------');
 
                 Game::where('id', $game_id)->update(['is_complete' => true,]);
             }
