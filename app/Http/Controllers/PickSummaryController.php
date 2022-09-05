@@ -47,6 +47,7 @@ class PickSummaryController extends Controller
             ->select('user_id', 'name', DB::raw('SUM(wins) As total_wins'), DB::raw('SUM(losses) as total_losses'), 'winnings')
             ->groupBy('picks.user_id', 'users.name')
             ->orderBy('total_wins', 'desc')
+            ->orderBy('total_losses', 'asc')
             ->orderBy('users.name')
             ->get();
 
