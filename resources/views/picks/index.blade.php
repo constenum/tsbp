@@ -83,8 +83,14 @@
                                                         <input id="dog" name="game{{ $game->id }}" type="radio"
                                                                class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                                                value="{{ $game->away_team_id }}"
-                                                               @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) disabled
-                                                               @endif @if(in_array($game->away_team_id, $picks)) checked @endif>
+                                                               @if($reveal_picks < \Carbon\Carbon::now())
+                                                                   disabled
+                                                               @elseif($game->start_at < \Carbon\Carbon::now() and in_array($game->away_team_id, $picks))
+                                                                   readonly
+                                                               @elseif($game->start_at < \Carbon\Carbon::now())
+                                                                   disabled
+                                                               @endif
+                                                               @if(in_array($game->away_team_id, $picks)) checked @endif>
                                                         <label for="dog"
                                                                class="ml-3 block text-sm font-medium @if($game->away_spread < 0) uppercase font-bold @endif @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) text-gray-400 @endif">{{ $game->away_team->name }}
                                                             [{{ $game->away_spread }}]</label>
@@ -95,8 +101,14 @@
                                                         <input id="favorite" name="game{{ $game->id }}" type="radio"
                                                                class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                                                value="{{ $game->home_team_id }}"
-                                                               @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) disabled
-                                                               @endif @if(in_array($game->home_team_id, $picks)) checked @endif>
+                                                               @if($reveal_picks < \Carbon\Carbon::now())
+                                                                   disabled
+                                                               @elseif($game->start_at < \Carbon\Carbon::now() and in_array($game->home_team_id, $picks))
+                                                                   readonly
+                                                               @elseif($game->start_at < \Carbon\Carbon::now())
+                                                                   disabled
+                                                               @endif
+                                                               @if(in_array($game->home_team_id, $picks)) checked @endif>
                                                         <label for="favorite"
                                                                class="ml-3 block text-sm font-medium @if($game->home_spread < 0) uppercase font-bold @endif @if($game->start_at < \Carbon\Carbon::now() or $reveal_picks < \Carbon\Carbon::now()) text-gray-400 @endif">{{ $game->home_team->name }}
                                                             [{{ $game->home_spread }}]</label>
@@ -130,7 +142,7 @@
                                     </table>
                                 </div>
 
-                                <div class="flex justify-end bg-white py-3 pr-6">
+                                <div class="flex justify-end bg-white py-3 pr-6 @if($reveal_picks < \Carbon\Carbon::now()) hidden @endif">
                                     <x-button-danger>
                                         {{ __('Reset') }}
                                     </x-button-danger>
