@@ -47,10 +47,6 @@
                                         <thead class="bg-gray-50">
                                         <tr>
                                             <th scope="col"
-                                                class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6">
-                                                Game
-                                            </th>
-                                            <th scope="col"
                                                 class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                                                 Start Date/Time
                                             </th>
@@ -72,9 +68,6 @@
                                         <input name="user_id" type="number" value="{{Auth::user()->id}}" hidden>
                                         @foreach($games as $game)
                                             <tr>
-                                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-                                                    {{ $game->id }}
-                                                </td>
                                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                                                     {{ $game->start_at->format('D, M d, Y g:i A') }}
                                                 </td>
