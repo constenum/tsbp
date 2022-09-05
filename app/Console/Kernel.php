@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
         if(App::environment('production')) {
             $schedule->command('spreads:weekly')
                 ->timezone('America/New_York')
-                ->weeklyOn(3, '11:00')
+                ->weeklyOn(3, '12:00')
                 ->withoutOverlapping();
         } else {
             $schedule->command('spreads:weekly')
