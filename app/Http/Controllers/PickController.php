@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PicksSuccessfullySubmitted;
 use App\Http\Requests\StorePickRequest;
 use App\Models\Game;
 use App\Models\Pick;
@@ -64,10 +65,12 @@ class PickController extends Controller
 ////            ]);
 ////        }
 
-        Pick::updateOrCreate(
+        $submitted_picks = Pick::updateOrCreate(
             ['user_id' => $request->user_id, 'week_id' => $request->week_id],
             ['pick_count' => $request->pick_count, 'picks' => json_encode($picks),]
         );
+
+        PicksSuccessfullySubmitted::dispatch($submitted_picks);
 
         Log::channel('picks')->info('Current Week: week '.$week);
         Log::channel('picks')->info('DateTime: '.Carbon::now());
@@ -75,7 +78,7 @@ class PickController extends Controller
         Log::channel('picks')->info('Picks: '.json_encode($picks));
         Log::channel('picks')->info(' ');
 
-        session()->flash('success', 'Your picks have been saved!');
+        session()->flash('success', 'Your picks have been saved! An email confirmation has also been sent.');
 
         return redirect()->route('picks.index');
     }
