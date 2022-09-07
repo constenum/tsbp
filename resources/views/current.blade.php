@@ -15,53 +15,53 @@
                                 <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col"
-                                        class="py-3 pl-3 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border sm:pl-6">
+                                        class="py-3 pl-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border sm:pl-6">
                                         Name
                                     </th>
                                     <th scope="col"
-                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                        class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                         Game 1
                                     </th>
                                     <th scope="col"
-                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                        class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                         Game 2
                                     </th>
                                     <th scope="col"
-                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                        class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                         Game 3
                                     </th>
                                     <th scope="col"
-                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                        class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                         Game 4
                                     </th>
                                     <th scope="col"
-                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                        class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                         Game 5
                                     </th>
                                     @if($week == 18)
                                         <th scope="col"
-                                            class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                            class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                             Game 6
                                         </th>
                                         <th scope="col"
-                                            class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                            class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                             Game 7
                                         </th>
                                         <th scope="col"
-                                            class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                            class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                             Game 8
                                         </th>
                                         <th scope="col"
-                                            class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                            class="py-3 pl-23 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                             Game 9
                                         </th>
                                         <th scope="col"
-                                            class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                            class="py-3 pl-2 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                             Game 10
                                         </th>
                                     @endif
                                     <th scope="col"
-                                        class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
+                                        class="py-3 pl-2 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 border">
                                         Record
                                     </th>
                                 </tr>
@@ -69,13 +69,13 @@
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                 @foreach($users_picks as $user_picks)
                                     <tr>
-                                        <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900 border sm:pl-6">
+                                        <td class="whitespace-nowrap py-3 pl-3 text-sm font-medium text-gray-900 border sm:pl-6">
                                             {{ $user_picks->name }}
                                         </td>
 
                                         @if($user_picks->picks == null)
                                             @for($i=0; $i<$max_picks;$i++)
-                                                <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium font-bold text-gray-900 border">
+                                                <td class="whitespace-nowrap py-3 pl-2 text-sm font-medium font-bold text-gray-900 border">
                                                     @if($reveal_picks < \Carbon\Carbon::now())
                                                         <span class="text-gray-400"> no pick</span>
                                                     @else
@@ -83,12 +83,12 @@
                                                     @endif
                                                 </td>
                                             @endfor
-                                            <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900 border">
+                                            <td class="whitespace-nowrap py-3 pl-2 pr-3 text-sm font-medium text-gray-900 border">
                                                 0 - 0
                                             </td>
                                         @else
                                             @foreach(json_decode($user_picks->picks, true) as $key=>$value)
-                                                <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium border
+                                                <td class="whitespace-nowrap py-3 pl-2 text-sm font-medium border
                                                 @php
                                                     $game = (new App\Models\Game)->where('id', $key)->get(['status', 'home_team_id', 'home_score', 'home_spread', 'away_team_id', 'away_score', 'away_spread']);
                                                     $start_datetime = (new App\Models\Game)->where('id', $key)->value('start_at');
@@ -146,7 +146,7 @@
                                                 @if($loop->last)
                                                     @if($loop->count < $max_picks)
                                                         @for($i = $loop->count; $i < $max_picks; $i++)
-                                                            <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium font-bold text-gray-900 border">
+                                                            <td class="whitespace-nowrap py-3 pl-2 text-sm font-medium font-bold text-gray-900 border">
                                                                 @if($reveal_picks < \Carbon\Carbon::now())
                                                                     <span class="text-gray-400"> no pick</span>
                                                                 @else
@@ -157,7 +157,7 @@
                                                     @endif
                                                 @endif
                                             @endforeach
-                                            <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-gray-900 border">
+                                            <td class="whitespace-nowrap py-3 pl-2 text-sm font-medium text-gray-900 border">
                                                 {{ $user_picks->wins }} - {{ $user_picks->losses }}
                                             </td>
                                         @endif

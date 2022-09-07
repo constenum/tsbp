@@ -71,12 +71,6 @@ class WeeklySpreads extends Command
                 }
                 $home_spread = trim($home_spreads->max());
 
-                Log::channel('spreads')->info('Game DateTime: '.$start);
-                Log::channel('spreads')->info('Week End Date: '.$end_date);
-                Log::channel('spreads')->info('Home Team: ('.Team::query()->where('name', $home_team)->value('name').') '.$home_team.' ['.$home_spread.']');
-                Log::channel('spreads')->info('Away Team: ('.Team::query()->where('name', $away_team)->value('name').') '.$away_team.' ['.-$home_spread.']');
-                Log::channel('spreads')->info(' ');
-
                 if ($home_team == null
                     or $away_team == null
                     or $home_spread == null
@@ -86,6 +80,12 @@ class WeeklySpreads extends Command
                     or Carbon::create($start) >= Carbon::create($end_date)) {
                     continue;
                 }
+
+                Log::channel('spreads')->info('Game DateTime: '.$start);
+                Log::channel('spreads')->info('Week End Date: '.$end_date);
+                Log::channel('spreads')->info('Home Team: ('.Team::query()->where('name', $home_team)->value('name').') '.$home_team.' ['.$home_spread.']');
+                Log::channel('spreads')->info('Away Team: ('.Team::query()->where('name', $away_team)->value('name').') '.$away_team.' ['.-$home_spread.']');
+                Log::channel('spreads')->info(' ');
 
                 if ($home_spread / 1 - floor($home_spread / 1) > 0) {
                     if ($home_spread < 0) {
