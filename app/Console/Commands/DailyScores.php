@@ -66,7 +66,7 @@ class DailyScores extends Command
 
             $game_id = $game[0]['id'];
 
-            if (str_starts_with($scores[$i + 1], "-") or str_starts_with($scores[$i + 1], "T") or str_starts_with($scores[$i + 1], "N") or $scores[$i + 1] == null) {
+            if (str_starts_with($scores[$i + 1], "-") or str_starts_with($scores[$i + 1], "T") or str_starts_with($scores[$i + 1], "N") or str_starts_with($scores[$i + 1], "p") or $scores[$i + 1] == null) {
                 $status = "Not Started";
             } else {
                 $status = $scores[$i + 2];
