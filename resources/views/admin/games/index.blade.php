@@ -56,13 +56,13 @@
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 @if(str_starts_with($game->status, "Final")) bg-gray-100 @endif">
                                                 {{ $game->start_at->format('D, M d, g:i A') }}
                                             </td>
-                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium @if($game->away_spread < 0) uppercase font-bold @endif @if($game->status <> "Not Started" and $game->away_score + $game->away_spread > $game->home_score) bg-green-100 text-green-900 font-bold @elseif($game->status <> "Not Started" and $game->away_score + $game->away_spread < $game->home_score) bg-red-100 text-red-900 @else text-gray-900 @endif">
+                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium @if($game->away_spread < 0) uppercase font-bold @endif @if($game->status <> "Not Started" and $game->away_score + $game->away_spread > $game->home_score) bg-green-100 text-green-900 font-bold @elseif($game->status <> "Not Started" and $game->away_score + $game->away_spread <= $game->home_score) bg-red-100 text-red-900 @else text-gray-900 @endif">
                                                 {{ $game->away_team->name }} ({{ $game->away_spread }})
                                             </td>
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 @if(str_starts_with($game->status, "Final")) bg-gray-100 @endif">
                                                 at
                                             </td>
-                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium @if($game->home_spread < 0) uppercase font-bold @endif @if($game->status <> "Not Started" and $game->home_score + $game->home_spread > $game->away_score) bg-green-100 text-green-900 font-bold @elseif($game->status <> "Not Started" and $game->home_score + $game->home_spread < $game->away_score) bg-red-100 text-red-900 @else text-gray-900 @endif">
+                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium @if($game->home_spread < 0) uppercase font-bold @endif @if($game->status <> "Not Started" and $game->home_score + $game->home_spread > $game->away_score) bg-green-100 text-green-900 font-bold @elseif($game->status <> "Not Started" and $game->home_score + $game->home_spread <= $game->away_score) bg-red-100 text-red-900 @else text-gray-900 @endif">
                                                 {{ $game->home_team->name }} ({{ $game->home_spread }})
                                             </td>
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-gray-900 @if(str_starts_with($game->status, "Final")) bg-gray-100 @endif">
