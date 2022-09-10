@@ -98,9 +98,12 @@ class DailyScores extends Command
                 if ($completed_game->value('home_score') + $completed_game->value('home_spread') - $completed_game->value('away_score') > 0) {
                     $winner = $completed_game->value('home_team_id');
                     $loser = $completed_game->value('away_team_id');
-                } else {
+                } elseif ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') > 0) {
                     $winner = $completed_game->value('away_team_id');
                     $loser = $completed_game->value('home_team_id');
+                } else {
+                    $loser = $completed_game->value('home_team_id');
+                    $loser2 = $completed_game->value('away_team_id');
                 }
 
                 $record_wins_losses = Pick::where('week_id', $current_week)->get();
@@ -115,6 +118,13 @@ class DailyScores extends Command
                                     'wins' => DB::raw('wins+1')
                                 ]);
                         } elseif ($loser == $value) {
+                            Pick::query()
+                                ->where('week_id', $current_week)
+                                ->where('user_id', $wins_loss->user_id)
+                                ->update([
+                                    'losses' => DB::raw('losses+1')
+                                ]);
+                        } elseif ($loser2 == $value) {
                             Pick::query()
                                 ->where('week_id', $current_week)
                                 ->where('user_id', $wins_loss->user_id)
