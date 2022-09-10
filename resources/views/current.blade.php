@@ -98,14 +98,14 @@
                                                     @elseif(str_starts_with($game->value('status'), "Final") and $game->value('away_score') + $game->value('away_spread') <= $game->value('home_score')) bg-red-100 text-red-900
                                                     @elseif(str_starts_with($game->value('status'), "Not Started")) text-gray-900
                                                     @elseif($game->value('away_score') + $game->value('away_spread') > $game->value('home_score')) text-green-600
-                                                    @else($game->value('away_score') + $game->value('away_spread') <= $game->value('home_score')) text-red-600
+                                                    @else $game->value('away_score') + $game->value('away_spread') <= $game->value('home_score') text-red-600
                                                     @endif
                                                 @else
                                                     @if(str_starts_with($game->value('status'), "Final") and $game->value('home_score') + $game->value('home_spread') > $game->value('away_score')) bg-green-100 text-green-900
                                                     @elseif(str_starts_with($game->value('status'), "Final") and $game->value('home_score') + $game->value('home_spread') <= $game->value('away_score')) bg-red-100 text-red-900
                                                     @elseif(str_starts_with($game->value('status'), "Not Started")) text-gray-900
                                                     @elseif($game->value('home_score') + $game->value('home_spread') > $game->value('away_score')) text-green-600
-                                                    @else($game->value('home_score') + $game->value('home_spread') <= $game->value('away_score')) text-red-600
+                                                    @else $game->value('home_score') + $game->value('home_spread') <= $game->value('away_score') text-red-600
                                                     @endif
                                                 @endif">
                                                     <div>
