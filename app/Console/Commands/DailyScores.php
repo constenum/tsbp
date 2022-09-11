@@ -96,9 +96,9 @@ class DailyScores extends Command
                         'away_spread'
                     ]);
 
-                $winner = null;
-                $loser = null;
-                $loser2 = null;
+                $winner = 0;
+                $loser = 0;
+                $loser2 = 0;
 
                 Log::info('Winner before if statement: '.$winner);
                 Log::info('Loser before if statement: '.$loser);
@@ -111,14 +111,14 @@ class DailyScores extends Command
                     Log::info('Winner in if statement: '.$winner);
                     Log::info('Loser in if statement: '.$loser);
                 }
-                if ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') > 0) {
+                elseif ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') > 0) {
                     $winner = $completed_game->value('away_team_id');
                     $loser = $completed_game->value('home_team_id');
 
                     Log::info('Winner in if statement: '.$winner);
                     Log::info('Loser in if statement: '.$loser);
                 }
-                if ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') == 0) {
+                elseif ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') == 0) {
                     $loser = $completed_game->value('home_team_id');
                     $loser2 = $completed_game->value('away_team_id');
 
