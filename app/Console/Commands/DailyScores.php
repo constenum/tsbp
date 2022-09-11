@@ -96,59 +96,18 @@ class DailyScores extends Command
                         'away_spread'
                     ]);
 
-                $winner = 0;
-                $loser = 0;
-                $loser2 = 0;
-
-                Log::info('Winner before if statement: '.$winner);
-                Log::info('Loser before if statement: '.$loser);
-                Log::info('Loser2 before if statement: '.$loser2);
-
-                if ($completed_game->value('home_score') + $completed_game->value('home_spread') - $completed_game->value('away_score') > 0) {
-                    $winner = $completed_game->value('home_team_id');
-                    $loser = $completed_game->value('away_team_id');
-
-                    Log::info('Winner in if statement: '.$winner);
-                    Log::info('Loser in if statement: '.$loser);
-                }
-                elseif ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') > 0) {
-                    $winner = $completed_game->value('away_team_id');
-                    $loser = $completed_game->value('home_team_id');
-
-                    Log::info('Winner in if statement: '.$winner);
-                    Log::info('Loser in if statement: '.$loser);
-                }
-                elseif ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') == 0) {
-                    $loser = $completed_game->value('home_team_id');
-                    $loser2 = $completed_game->value('away_team_id');
-
-                    Log::info('Loser in if statement: '.$loser);
-                    Log::info('Loser2 in if statement: '.$loser2);
-                }
-
-                Log::info('Winner outside if statement: '.$winner);
-                Log::info('Loser outside if statement: '.$loser);
-                Log::info('Loser2 outside if statement: '.$loser2);
-
                 $record_wins_losses = Pick::where('week_id', $current_week)->get();
 
                 foreach ($record_wins_losses as $wins_loss) {
                     foreach (json_decode($wins_loss->picks, true) as $value) {
-                        if ($winner == $value) {
+                        if (($completed_game->value('home_team_id') == $value and $completed_game->value('home_score') + $completed_game->value('home_spread') - $completed_game->value('away_score') > 0) or ($completed_game->value('away_team_id') == $value and $completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') > 0)) {
                             Pick::query()
                                 ->where('week_id', $current_week)
                                 ->where('user_id', $wins_loss->user_id)
                                 ->update([
                                     'wins' => DB::raw('wins+1')
                                 ]);
-                        } elseif ($loser == $value) {
-                            Pick::query()
-                                ->where('week_id', $current_week)
-                                ->where('user_id', $wins_loss->user_id)
-                                ->update([
-                                    'losses' => DB::raw('losses+1')
-                                ]);
-                        } elseif ($loser2 == $value) {
+                        } elseif ($completed_game->value('away_team_id') == $value or $completed_game->value('home_team_id') == $value) {
                             Pick::query()
                                 ->where('week_id', $current_week)
                                 ->where('user_id', $wins_loss->user_id)
