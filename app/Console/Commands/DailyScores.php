@@ -10,6 +10,7 @@ use DOMDocument;
 use DOMXPath;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DailyScores extends Command
 {
@@ -95,16 +96,39 @@ class DailyScores extends Command
                         'away_spread'
                     ]);
 
+                $winner = null;
+                $loser = null;
+                $loser2 = null;
+
+                Log::info('Winner before if statement: '.$winner);
+                Log::info('Loser before if statement: '.$loser);
+                Log::info('Loser2 before if statement: '.$loser2);
+
                 if ($completed_game->value('home_score') + $completed_game->value('home_spread') - $completed_game->value('away_score') > 0) {
                     $winner = $completed_game->value('home_team_id');
                     $loser = $completed_game->value('away_team_id');
-                } elseif ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') > 0) {
+
+                    Log::info('Winner in if statement: '.$winner);
+                    Log::info('Loser in if statement: '.$loser);
+                }
+                if ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') > 0) {
                     $winner = $completed_game->value('away_team_id');
                     $loser = $completed_game->value('home_team_id');
-                } else {
+
+                    Log::info('Winner in if statement: '.$winner);
+                    Log::info('Loser in if statement: '.$loser);
+                }
+                if ($completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') == 0) {
                     $loser = $completed_game->value('home_team_id');
                     $loser2 = $completed_game->value('away_team_id');
+
+                    Log::info('Loser in if statement: '.$loser);
+                    Log::info('Loser2 in if statement: '.$loser2);
                 }
+
+                Log::info('Winner outside if statement: '.$winner);
+                Log::info('Loser outside if statement: '.$loser);
+                Log::info('Loser2 outside if statement: '.$loser2);
 
                 $record_wins_losses = Pick::where('week_id', $current_week)->get();
 
