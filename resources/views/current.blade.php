@@ -73,7 +73,7 @@
                                             {{ $user_picks->name }}
                                         </td>
 
-                                        @if($user_picks->picks == null)
+                                        @if($user_picks->picks == null or array_key_exists('0', json_decode($user_picks->picks, true)))
                                             @for($i=0; $i<$max_picks;$i++)
                                                 <td class="whitespace-nowrap py-3 pl-2 text-sm font-medium font-bold text-gray-900 border">
                                                     @if($reveal_picks < \Carbon\Carbon::now())
