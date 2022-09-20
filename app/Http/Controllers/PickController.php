@@ -49,22 +49,6 @@ class PickController extends Controller
             }
         }
 
-//        $existing_picks = Pick::query()->where('user_id', Auth::user()->id)->where('week_id', $request->week_id)->first();
-//
-////        if ($existing_picks != null) {
-////            $existing_picks->update([
-////                'pick_count' => $request->pick_count,
-////                'picks' => json_encode($picks),
-////            ]);
-////        } else {
-////            Pick::create([
-////                'user_id' => $request->user_id,
-////                'week_id' => $request->week_id,
-////                'pick_count' => $request->pick_count,
-////                'picks' => json_encode($picks),
-////            ]);
-////        }
-
         $submitted_picks = Pick::updateOrCreate(
             ['user_id' => $request->user_id, 'week_id' => $request->week_id],
             ['pick_count' => $request->pick_count, 'picks' => json_encode($picks),]
@@ -72,7 +56,6 @@ class PickController extends Controller
 
         PicksSuccessfullySubmitted::dispatch($submitted_picks);
 
-        Log::channel('picks')->info('Current Week: week '.$week);
         Log::channel('picks')->info('DateTime: '.Carbon::now());
         Log::channel('picks')->info('User ID: '.$request->user_id);
         Log::channel('picks')->info('Picks: '.json_encode($picks));

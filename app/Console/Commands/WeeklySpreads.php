@@ -31,10 +31,16 @@ class WeeklySpreads extends Command
 
         $sports = ['americanfootball_ncaaf', 'americanfootball_nfl'];
         $current_week = Week::query()->where('is_active', true)->value('id');
+        $end_date = Carbon::create(Week::where('is_active', true)->value('start_at'))->addDays(6)->toDateString();
 
-        Log::channel('spreads')->info('======== WEEK ========');
+
+        Log::channel('spreads')->info('======== WEEK =========');
         Log::channel('spreads')->info('Current Week: week '.$current_week);
-        Log::channel('spreads')->info('======================');
+        Log::channel('spreads')->info('End Date: '.$end_date);
+        Log::channel('spreads')->info('=======================');
+        Log::channel('picks')->info('======== WEEK =========');
+        Log::channel('picks')->info('Current Week: week '.$current_week);
+        Log::channel('picks')->info('=======================');
 
         foreach ($sports as $sport) {
             $response = Http::get('https://api.the-odds-api.com/v4/sports/'.$sport.'/odds/?apiKey=e477ff82aaf4aa4f705720b0f55930df&regions=us&markets=spreads');
@@ -44,7 +50,6 @@ class WeeklySpreads extends Command
                 $home_team = trim($collection->pluck('home_team')[$i]);
                 $away_team = trim($collection->pluck('away_team')[$i]);
                 $start = Carbon::parse(trim($collection->pluck('commence_time')[$i]))->setTimezone('America/New_York')->format('Y:m:d H:i:s');
-                $end_date = Carbon::create(Week::where('is_active', true)->value('start_at'))->addDays(6)->toDateString();
 
                 $odds = 0;
                 $stop = true;
@@ -82,7 +87,6 @@ class WeeklySpreads extends Command
                 }
 
                 Log::channel('spreads')->info('Game DateTime: '.$start);
-                Log::channel('spreads')->info('Week End Date: '.$end_date);
                 Log::channel('spreads')->info('Home Team: ('.Team::query()->where('name', $home_team)->value('name').') '.$home_team.' ['.$home_spread.']');
                 Log::channel('spreads')->info('Away Team: ('.Team::query()->where('name', $away_team)->value('name').') '.$away_team.' ['.-$home_spread.']');
                 Log::channel('spreads')->info(' ');

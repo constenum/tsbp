@@ -72,9 +72,9 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
-        'scores' => [
+        'payout' => [
             'driver' => 'single',
-            'path' => storage_path('logs/scores.log'),
+            'path' => storage_path('logs/payout.log'),
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 

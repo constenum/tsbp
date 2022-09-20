@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pick::class);
     }
+
+    public function winners()
+    {
+        return Pick::where('is_active', true)->where('wins', Week::get('max_picks')->value)->value('user_id');
+    }
 }

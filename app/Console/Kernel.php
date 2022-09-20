@@ -32,6 +32,11 @@ class Kernel extends ConsoleKernel
             ->timezone('America/New_York')
             ->weeklyOn(6, '11:20')
             ->withoutOverlapping();
+
+        $schedule->command('prize-money-distribution:weekly')
+            ->timezone('America/New_York')
+            ->weeklyOn(2, '12:00')
+            ->withoutOverlapping();
     }
 
     protected function commands() : Void

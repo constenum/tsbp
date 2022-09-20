@@ -97,7 +97,7 @@ class DailyScores extends Command
                     ]);
 
                 $record_wins_losses = Pick::where('week_id', $current_week)->get();
-                
+
                 foreach ($record_wins_losses as $wins_loss) {
                     foreach (json_decode($wins_loss->picks, true) as $value) {
                         if (($completed_game->value('home_team_id') == $value and $completed_game->value('home_score') + $completed_game->value('home_spread') - $completed_game->value('away_score') > 0) or ($completed_game->value('away_team_id') == $value and $completed_game->value('away_score') + $completed_game->value('away_spread') - $completed_game->value('home_score') > 0)) {

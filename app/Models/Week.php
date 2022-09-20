@@ -12,6 +12,7 @@ class Week extends Model
         'start_at',
         'is_active',
         'max_picks',
+        'payout',
     ];
 
     protected $casts = [
